@@ -12,7 +12,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -100,7 +100,7 @@ class Neo4jExtension extends Extension
             }
 
             $container
-                ->setDefinition($serviceId, new DefinitionDecorator('neo4j.client.abstract'))
+                ->setDefinition($serviceId, new ChildDefinition('neo4j.client.abstract'))
                 ->setArguments([$connections]);
         }
 
@@ -128,7 +128,7 @@ class Neo4jExtension extends Extension
                 ));
             }
             $container
-                ->setDefinition($serviceId, new DefinitionDecorator('neo4j.entity_manager.abstract'))
+                ->setDefinition($serviceId, new ChildDefinition('neo4j.entity_manager.abstract'))
                 ->setArguments([
                     $container->getDefinition($clientServiceIds[$clientName]),
                     empty($data['cache_dir']) ? $container->getParameter('kernel.cache_dir').'/neo4j' : $data['cache_dir'],
