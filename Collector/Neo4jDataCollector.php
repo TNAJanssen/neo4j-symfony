@@ -87,4 +87,9 @@ final class Neo4jDataCollector extends DataCollector
     {
         return 'neo4j';
     }
+
+    public function reset()
+    {
+        $this->data = [];
+    }
 }
